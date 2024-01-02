@@ -1,6 +1,7 @@
 import { useState } from "react";
 import "./App.css";
 
+//Displays the tictactoe button with value
 function Square({ value, onSquareClick }) {
   return (
     <button className="square" onClick={onSquareClick}>
@@ -30,9 +31,8 @@ function calculateWinner(squares) {
   return null;
 }
 
+//Provide the whole board
 function Board({ xIsNext, squares, onPlay }) {
-  // const [xIsNext, setXIsNext] = useState(true);
-  // const [squares, setSquares] = useState(Array(9).fill(null));
 
   function handleClick(i) {
     if (calculateWinner(squares) || squares[i]) {
@@ -47,7 +47,7 @@ function Board({ xIsNext, squares, onPlay }) {
     onPlay(nextSquares);
   }
 
-
+  //Displays winner name
     const winner = calculateWinner(squares);
     let status;
     if (winner) {
@@ -80,21 +80,20 @@ function Board({ xIsNext, squares, onPlay }) {
 }
 
 export default function Game() {
-  const [xIsNext, setXIsNext] = useState(true);
   const [history, setHistory] = useState([Array(9).fill(null)]); //A single array
   const [currentMove,setCurrentMove] = useState(0)
+  const xIsNext = currentMove %2 === 0;
   const currentSquares = history[currentMove];
 
   function handlePlay(nextSquares) {
     const nextHistory = ([...history.slice(0,currentMove + 1), nextSquares]);
     setHistory(nextHistory);
     setCurrentMove(nextHistory.length - 1);
-    setXIsNext(!xIsNext);
   }
 
   function jumpTo(nextMove) {
     setCurrentMove(nextMove);
-    setXIsNext(nextMove % 2 === 0)
+
   }
 
   //To show the moves we make
